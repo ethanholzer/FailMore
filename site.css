@@ -21,10 +21,10 @@ h1, h2, h3 { margin: 0; letter-spacing: -.03em; font-weight: 800; }
 /* ---------- nav ---------- */
 .nav { position: fixed; inset: 0 0 auto; z-index: 50; height: 64px; display: flex; align-items: center; gap: 24px; padding: 0 max(16px, calc((100% - 1120px) / 2)); color: #fff; transition: background .25s, color .25s, box-shadow .25s; }
 .nav.solid { background: rgba(255,255,255,.94); color: var(--ink); box-shadow: 0 2px 8px rgba(20,20,23,.08); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-.logo { font-size: 1.375rem; font-weight: 800; letter-spacing: -.02em; text-decoration: none; }
+.logo { display: inline-flex; align-items: center; font-size: 1.375rem; font-weight: 800; letter-spacing: -.02em; line-height: 1; text-decoration: none; }
 .logo span { color: var(--yellow); }
 .nav.solid .logo span { color: var(--purple); }
-.logo small { margin-left: 10px; font-size: .8125rem; font-weight: 600; letter-spacing: 0; opacity: .75; }
+.logo small { margin-left: 10px; font-size: .8125rem; font-weight: 600; letter-spacing: 0; line-height: 1; opacity: .75; position: relative; top: .06em; }
 @media (max-width: 380px) { .nav .logo small { display: none; } }
 .nav-links { display: flex; gap: 22px; margin-left: auto; }
 .nav-links a { text-decoration: none; font-weight: 600; font-size: .9375rem; opacity: .9; }
@@ -38,9 +38,10 @@ h1, h2, h3 { margin: 0; letter-spacing: -.03em; font-weight: 800; }
 .vib { position: relative; overflow: hidden; color: #fff; background: var(--vib); isolation: isolate; }
 .glow { position: absolute; width: 560px; height: 560px; left: -200px; bottom: -240px; border-radius: 50%; background: radial-gradient(circle, rgba(255,200,61,.22), rgba(255,200,61,0) 65%); pointer-events: none; z-index: -1; }
 .glow-r { left: auto; right: -220px; top: -200px; bottom: auto; }
-.flame { position: absolute; left: -20%; right: -20%; bottom: -4%; height: 60%; opacity: .5; pointer-events: none; z-index: -1; }
+/* the flame covers its whole section: it scales to the section's width or height, whichever is larger */
+.flame { position: absolute; inset: 0; opacity: .2; pointer-events: none; z-index: -1; }
 .flame svg { width: 100% !important; height: 100% !important; }
-.flame-soft { opacity: .32; height: 70%; }
+.flame-soft { opacity: .14; }
 .kicker { display: inline-block; font-size: .875rem; font-weight: 700; color: var(--deep); background: var(--yellow); border-radius: 999px; padding: 5px 12px; margin-bottom: 16px; }
 .pill { display: inline-block; font-size: .8125rem; font-weight: 700; color: var(--purple-dk); background: var(--lilac); border-radius: 999px; padding: 5px 12px; margin-bottom: 14px; }
 .pill.green { color: var(--green); background: var(--green-bg); }
@@ -59,13 +60,13 @@ h1, h2, h3 { margin: 0; letter-spacing: -.03em; font-weight: 800; }
 .phone::after { content: ''; position: absolute; top: 18px; left: 50%; width: 30%; height: 22px; transform: translateX(-50%); border-radius: 12px; background: #111; opacity: 0; }
 
 /* ---------- hero ---------- */
-.hero { padding: 120px 0 0; min-height: 100svh; display: flex; align-items: center; }
+.hero { padding: 112px 0 72px; min-height: 100svh; display: flex; align-items: center; }
 .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; }
 .hero h1 { font-size: clamp(3rem, 7vw, 5.25rem); line-height: .98; letter-spacing: -.045em; }
 .hero-copy .lead { font-size: 1.25rem; }
-.hero-phones { position: relative; height: 640px; }
-.phone-front { position: absolute; left: 4%; top: 30px; width: 290px; z-index: 2; }
-.phone-back { position: absolute; right: 0; top: 0; width: 260px; transform: rotate(5deg); opacity: .95; }
+.hero-phones { position: relative; height: 600px; }
+.phone-front { position: absolute; left: 4%; top: 22px; width: 264px; z-index: 2; }
+.phone-back { position: absolute; right: 0; top: 0; width: 238px; transform: rotate(5deg); opacity: .95; }
 .float { animation: float 6s ease-in-out infinite; }
 .float-slow { animation: floatR 7s ease-in-out infinite; }
 @keyframes float { 50% { transform: translateY(-12px); } }
@@ -74,11 +75,11 @@ h1, h2, h3 { margin: 0; letter-spacing: -.03em; font-weight: 800; }
 .rise > :nth-child(2) { animation-delay: .1s; } .rise > :nth-child(3) { animation-delay: .2s; } .rise > :nth-child(4) { animation-delay: .3s; } .rise > :nth-child(5) { animation-delay: .4s; }
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @media (max-width: 900px) {
-  .hero { padding-top: 100px; min-height: 0; }
+  .hero { padding-top: 100px; padding-bottom: 48px; min-height: 0; }
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-phones { height: 520px; margin-top: 10px; }
-  .phone-front { width: 230px; left: 50%; margin-left: -165px; }
-  .phone-back { width: 205px; right: 50%; margin-right: -175px; top: 30px; }
+  .hero-phones { height: 486px; margin-top: 10px; }
+  .phone-front { width: 214px; top: 10px; left: 50%; margin-left: -155px; }
+  .phone-back { width: 192px; right: 50%; margin-right: -165px; top: 30px; }
 }
 
 /* ---------- sections ---------- */
@@ -199,11 +200,9 @@ h1, h2, h3 { margin: 0; letter-spacing: -.03em; font-weight: 800; }
 .word-card h2 { font-size: clamp(1.875rem, 3.6vw, 2.625rem); line-height: 1.05; }
 .word-card p { font-size: 1.125rem; color: var(--sec); margin: 14px 0 28px; max-width: 40ch; }
 .word-card .btn svg { width: 18px; height: 18px; }
-.maker { background: var(--bg-soft); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; }
-.maker img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-.maker-copy { padding: 22px 24px 26px; }
-.maker-copy b { font-size: 1.25rem; }
-.maker-copy p { margin: 6px 0 0; color: var(--sec); }
+.share-card { border-radius: 24px; display: grid; place-items: center; padding: 28px; min-height: 300px; }
+.share-anim { width: 100%; max-width: 380px; aspect-ratio: 360 / 300; }
+.share-anim svg { display: block; }
 @media (max-width: 900px) { .word-grid { grid-template-columns: 1fr; } .word-card { padding: 28px 22px; } }
 
 /* footer */
@@ -240,8 +239,6 @@ h1, h2, h3 { margin: 0; letter-spacing: -.03em; font-weight: 800; }
 .col h3 { font-size: 1.625rem; line-height: 1.1; margin-top: 22px; }
 .col p { font-size: 1.0625rem; color: var(--sec); margin: 10px 0 0; }
 .cols3 .col:nth-child(2) { transition-delay: .08s; } .cols3 .col:nth-child(3) { transition-delay: .16s; }
-#privacy .sec-head.center { margin-bottom: 48px; }
-#privacy .sec-head h2 { max-width: 20ch; margin-inline: auto; }
 @media (max-width: 900px) { .cols3 { grid-template-columns: 1fr; } }
 
 /* how it works: three big step lines */
@@ -252,3 +249,24 @@ h1, h2, h3 { margin: 0; letter-spacing: -.03em; font-weight: 800; }
 
 .rc-total { align-items: center; }
 .rc-name small { display: block; font-size: .875rem; font-weight: 600; color: #7a6fd6; letter-spacing: 0; margin-top: 2px; }
+
+/* ---------- your data: one short row, title first ---------- */
+.data-sec { padding: 64px 0; }
+.data-row { display: grid; grid-template-columns: 1.15fr repeat(3, 1fr); gap: 16px; align-items: stretch; }
+.data-head { align-self: center; padding-right: 12px; }
+.data-head .pill { margin-bottom: 12px; }
+.data-head h2 { font-size: clamp(1.875rem, 2.9vw, 2.375rem); line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
+.data-row .col { padding: 22px 22px 24px; border-radius: 20px; }
+.data-row .col-ic { width: 44px; height: 44px; border-radius: 13px; }
+.data-row .col-ic svg { width: 22px; height: 22px; }
+.data-row .col h3 { font-size: 1.1875rem; margin-top: 14px; }
+.data-row .col p { font-size: .9375rem; line-height: 1.45; margin-top: 6px; }
+.data-row .col:nth-child(3) { transition-delay: .08s; } .data-row .col:nth-child(4) { transition-delay: .16s; }
+@media (max-width: 1000px) { .data-row { grid-template-columns: repeat(3, 1fr); } .data-head { grid-column: 1 / -1; padding: 0 0 4px; } }
+@media (max-width: 700px) {
+  .data-sec { padding: 48px 0; }
+  .data-row { grid-template-columns: 1fr; gap: 10px; }
+  .data-row .col { display: grid; grid-template-columns: 40px 1fr; column-gap: 14px; padding: 16px 18px; }
+  .data-row .col-ic { width: 40px; height: 40px; grid-row: span 2; }
+  .data-row .col h3 { margin-top: 0; align-self: end; }
+}

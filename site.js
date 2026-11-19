@@ -1,10 +1,11 @@
 // FailMore marketing site: nav state, scroll reveals, the tracker demo, the flame and sharing
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// nav turns white once you leave the hero
+// nav gets its white background as soon as the page scrolls, so it never sits on top of text
 const nav = document.querySelector('[data-nav]');
-const hero = document.querySelector('.hero');
-new IntersectionObserver(([e]) => nav.classList.toggle('solid', !e.isIntersecting), { rootMargin: '-64px 0px 0px' }).observe(hero);
+const navState = () => nav.classList.toggle('solid', window.scrollY > 2);
+window.addEventListener('scroll', navState, { passive: true });
+navState();
 
 // reveal cards as they scroll in
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
@@ -33,8 +34,21 @@ window.addEventListener('load', () => {
   fetch('assets/flame.json').then(r => r.json()).then(data => {
     document.querySelectorAll('[data-flame]').forEach(box => window.lottie.loadAnimation({
       container: box, renderer: 'svg', loop: true, autoplay: !reduce, animationData: data,
-      rendererSettings: { preserveAspectRatio: 'xMidYMax slice' },
+      // the flames only fill the bottom of the animation's square canvas (y 229 to 400 of 400),
+      // so crop to that strip and let it cover the section by width or height, whichever is larger
+      rendererSettings: { preserveAspectRatio: 'xMidYMax slice', viewBoxSize: '0 226 400 174' },
     }));
+  }).catch(() => {});
+});
+
+// the "one lifter tells three friends" animation from the app's onboarding, playing only while it's on screen
+window.addEventListener('load', () => {
+  const box = document.querySelector('[data-share-anim]');
+  if (!box || !window.lottie) return;
+  fetch('assets/share.json').then(r => r.json()).then(data => {
+    const anim = window.lottie.loadAnimation({ container: box, renderer: 'svg', loop: true, autoplay: false, animationData: data });
+    if (reduce) { anim.goToAndStop(Math.round(anim.totalFrames * .6), true); return; }
+    new IntersectionObserver(([e]) => e.isIntersecting ? anim.play() : anim.pause(), { threshold: .2 }).observe(box);
   }).catch(() => {});
 });
 
