@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sent from FailMore</title>
+  <meta name="description" content="Someone sent you a FailMore workout plan. Open it in FailMore and start it on your own schedule.">
+  <meta name="theme-color" content="#6c5ce7">
+  <meta property="og:title" content="You’ve been sent a FailMore workout plan">
+  <meta property="og:description" content="Open it in FailMore and do it together. Failure is the goal.">
+  <meta property="og:image" content="https://failmore.app/assets/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script src="../assets/workout-icons.js"></script>
+  <style>
+    @font-face { font-family: 'Archivo'; src: url('../assets/fonts/archivo-latin-wght-normal.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+    :root { --ink: #111; --sec: #5f636b; --purple: #6c5ce7; --lilac: #eeebfd; --yellow: #FFC83D; --bg: #f4f4f7;
+      --vib: radial-gradient(120% 80% at 85% -10%, #8f7ff5 0%, rgba(143,127,245,0) 55%), linear-gradient(170deg, #6c5ce7 0%, #4f3fd0 55%, #2c1f8f 100%); }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100dvh; font-family: 'Archivo', -apple-system, system-ui, sans-serif; color: var(--ink); background: var(--vib); -webkit-font-smoothing: antialiased; }
+    .wrap { width: min(480px, 100% - 32px); margin-inline: auto; padding: max(28px, env(safe-area-inset-top)) 0 max(32px, env(safe-area-inset-bottom)); }
+    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; line-height: 1; }
+    .logo { display: inline-block; line-height: 1; color: #fff; font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; text-decoration: none; }
+    .brand-sub { color: rgba(255,255,255,.78); font-size: 1rem; font-weight: 600; line-height: 1; }
+    .logo span { color: var(--yellow); }
+    .card { background: #fff; border-radius: 24px; padding: 22px; box-shadow: 0 16px 40px rgba(20,10,80,.35); }
+    .eyebrow { font-size: .9375rem; color: var(--sec); margin: 0 0 6px; }
+    h1 { margin: 0; font-size: 1.875rem; line-height: 1.1; letter-spacing: -.03em; font-weight: 800; }
+    .meta { margin: 8px 0 18px; color: var(--sec); font-size: .9375rem; }
+    .lineup { list-style: none; margin: 0 0 20px; padding: 6px 14px; background: var(--bg); border-radius: 16px; }
+    .lineup li { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
+    .lineup li + li { border-top: 1px solid #e6e5ee; }
+    .badge { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; flex: none; font-weight: 700; font-size: .8125rem; color: #fff; }
+    .badge.sq { border-radius: 8px; background: linear-gradient(145deg, color-mix(in srgb, var(--wc) 78%, #fff) 0%, var(--wc) 100%); }   /* numbered tiles, like a live workout */
+    .badge.rest { background: #fff; border: 2px solid #c9c7d3; color: var(--ink); }
+    .day b { display: block; font-size: 1rem; }
+    .day small { color: var(--sec); font-size: .875rem; }
+    .btn { display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; font: inherit; font-weight: 700; font-size: 1rem; text-decoration: none; transition: transform .12s ease; }
+    .btn:active { transform: scale(.97); }
+    .btn.primary { background: var(--ink); color: #fff; }
+    .btn.store { background: var(--yellow); color: var(--ink); margin-top: 10px; }
+    .note { margin: 14px 4px 0; color: var(--sec); font-size: .875rem; line-height: 1.4; text-align: center; }
+    .broken h1 { font-size: 1.5rem; }
+    .title { display: flex; align-items: flex-start; gap: 14px; }   /* the icon stays beside the name even when the tags wrap */
+    .tblock { min-width: 0; padding-top: 2px; }
+    .title #mark { display: flex; }
+    .title #mark:empty { display: none; }
+    .mark-grid { display: block; flex: none; }
+    .tile { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; flex: none; color: #fff; }
+    .tile svg { width: 32px; height: 32px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; }
+    .lineup { margin-top: 18px !important; }
+    .mtag { padding: 3px 9px; border-radius: 6px; font-size: .8125rem; font-weight: 600; color: var(--ink); box-shadow: inset 0 0 0 1px var(--wc); }
+    .tag { color: rgba(255,255,255,.8); text-align: center; margin-top: 22px; font-size: .9375rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand"><a class="logo" href="/">Fail<span>More</span></a><span class="brand-sub">Workout Tracker</span></div>
+    <div class="card" id="card">
+      <p class="eyebrow" id="eyebrow">You’ve been sent a workout plan</p>
+      <div class="title"><span id="mark"></span><div class="tblock"><h1 id="name">Loading your plan</h1><div class="tags" id="tags" hidden></div></div></div>
+      <ul class="lineup" id="lineup" hidden></ul>
+      <a class="btn primary" id="open" href="#">Open in FailMore</a>
+      <a class="btn store" id="store" href="/#price">Get FailMore</a>
+      <p class="note" id="note">Just got the app? Come back here and tap Open in FailMore to add the plan.</p>
+    </div>
+    <p class="tag">Failure is the goal.</p>
+  </div>
+<script>
+  // Set this once FailMore is live in the App Store.
+  const APP_STORE_URL = '';
+  const code = (location.hash.match(/^#([0-9A-Za-z_-]{8,})$/) || [])[1];
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  if (APP_STORE_URL) { $('store').href = APP_STORE_URL; $('store').textContent = 'Get FailMore on the App Store'; }
+  const unb64 = s => { const b = atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4)); return Uint8Array.from(b, c => c.charCodeAt(0)); };
+  async function unpack(c) {
+    let bytes = unb64(c.slice(1));
+    if (c[0] === '1') bytes = new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }
+  // a workout's tile: its icon on its color, lighter at the top left (same as the app)
+  const tile = w => `<span class="tile" style="background:linear-gradient(145deg, color-mix(in srgb, ${esc(w.c)} 78%, #fff) 0%, ${esc(w.c)} 100%)">${(window.FM_ICONS || {})[w.i] || ''}</span>`;
+  // a plan's mark: one square per day of the split in that day's workout color, 3 rows, filled column by column
+  function planGrid(p) {
+    const days = p.d.slice(0, 10), ROWS = 3, cell = 11, gap = 2.5, n = days.length, rows = Math.min(ROWS, n), cols = Math.ceil(n / ROWS);
+    const W = cols * cell + (cols - 1) * gap, H = ROWS * cell + (ROWS - 1) * gap, top = (ROWS - rows) * (cell + gap) / 2;
+    const col = d => d === 'r' || !p.w[d] ? '#dddbe6' : esc(p.w[d].c || '#dddbe6');
+    return `<svg class="mark-grid" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${days.map((d, i) => `<rect x="${Math.floor(i / ROWS) * (cell + gap)}" y="${top + (i % ROWS) * (cell + gap)}" width="${cell}" height="${cell}" rx="2.5" fill="${col(d)}"/>`).join('')}</svg>`;
+  }
+  function broken() {
+    $('card').classList.add('broken');
+    $('name').textContent = 'This plan link looks broken';
+    $('open').hidden = true;
+  }
+  (async () => {
+    if (!code) return broken();
+    let p; try { p = await unpack(code); } catch { return broken(); }
+    const kind = p && p.k === 'w' ? 'workout' : 'plan';
+    if (!p || !p.n || !Array.isArray(p.w) || (kind === 'plan' && !Array.isArray(p.d))) return broken();
+    $('open').href = `failmore://${kind}#` + code;   // the app's own link (works even before universal links are on)
+    if (kind === 'workout') {   // one workout: its exercises
+      const w = p.w[0];
+      document.title = `${p.n}: a FailMore workout`;
+      $('eyebrow').textContent = 'You’ve been sent a workout';
+      $('note').textContent = 'Just got the app? Come back here and tap Open in FailMore to add the workout.';
+      $('name').textContent = p.n;
+      $('mark').innerHTML = tile(w);
+      const muscles = [...new Set(w.x.map(e => e[2]).filter(Boolean))];
+      if (muscles.length) { $('tags').innerHTML = muscles.map(m => `<span class="mtag" style="--wc:${esc(w.c)}">${esc(m)}</span>`).join(''); $('tags').hidden = false; }
+      $('lineup').innerHTML = w.x.map((e, i) => `<li><span class="badge sq" style="--wc:${esc(w.c || '#6c5ce7')}">${i + 1}</span><span class="day"><b>${esc(e[1])}</b><small>${e[4]} × ${e[5]} · ${esc(e[3])}</small></span></li>`).join('');
+      $('lineup').hidden = false;
+      return;
+    }
+    document.title = `${p.n}: a FailMore workout plan`;
+    $('name').textContent = p.n;
+    $('mark').innerHTML = planGrid(p);
+    $('lineup').innerHTML = p.d.map((d, i) => {
+      const w = d === 'r' ? null : p.w[d];
+      return w ? `<li><span class="badge" style="background:${esc(w.c || '#6c5ce7')}">${i + 1}</span><span class="day"><b>${esc(w.n)}</b><small>${w.x.length} exercise${w.x.length === 1 ? '' : 's'}</small></span></li>`
+               : `<li><span class="badge rest">${i + 1}</span><span class="day"><b>Rest day</b><small>Recovery</small></span></li>`;
+    }).join('');
+    $('lineup').hidden = false;
+  })();
+</script>
+</body>
+</html>
