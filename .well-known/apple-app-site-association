@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "LA8JC62C52.com.failmore.app"
+        ],
+        "components": [
+          { "/": "/plan", "comment": "a shared workout plan" },
+          { "/": "/plan/*", "comment": "a shared workout plan" },
+          { "/": "/workout", "comment": "a shared workout" },
+          { "/": "/workout/*", "comment": "a shared workout" }
+        ]
+      }
+    ]
+  }
+}
